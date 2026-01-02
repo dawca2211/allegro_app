@@ -1,18 +1,21 @@
-export default async function handler(req: any, res: any) {
-  const { code } = req.query;
-  if (!code) return res.status(400).send('Brak kodu autoryzacji');
+import { createClient } from '@supabase/supabase-js';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-  const clientId = process.env.ALLEGRO_CLIENT_ID;
-  const clientSecret = process.env.ALLEGRO_CLIENT_SECRET;
+// Inicjalizacja połączenia z bazą
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { code } = req.query;
+  if (!code) return res.status(400).json({ error: 'Brak kodu' });
+
+  const basicAuth = Buffer.from(`${process.env.ALLEGRO_CLIENT_ID}:${process.env.ALLEGRO_CLIENT_SECRET}`).toString('base64');
   const redirectUri = process.env.ALLEGRO_REDIRECT_URI || 'https://allegro-app.vercel.app/api/auth/callback';
 
-  if (!clientId || !clientSecret) {
-    return res.status(500).json({ error: 'Brak konfiguracji klienta Allegro w zmiennych środowiskowych' });
-  }
-
-  const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-
   try {
+    // 1. Pobieramy tokeny z Allegro
     const response = await fetch('https://allegro.pl/auth/oauth/token', {
       method: 'POST',
       headers: {
@@ -26,17 +29,32 @@ export default async function handler(req: any, res: any) {
       })
     });
 
+    const data = await response.json();
     if (!response.ok) {
-      const text = await response.text();
-      console.error('allegro token error', response.status, text);
-      return res.status(502).json({ error: 'Błąd od serwera Allegro podczas wymiany tokena', details: text });
+      console.error('Allegro token endpoint error:', data);
+      throw data;
     }
 
-    const tokens = await response.json();
-    // TODO: zapisz tokeny w bezpiecznym magazynie (Supabase / DB)
-    return res.status(200).json({ status: 'Połączono!', message: 'Teraz system może czytać Twoje dane.', tokens });
-  } catch (error) {
-    console.error('auth callback error', error);
-    return res.status(500).json({ error: 'Błąd autoryzacji' });
+    // 2. ZAPIS DO SUPABASE (To sprawi, że tabela nie będzie pusta)
+    const defaultUserEmail = process.env.ALLEGRO_DEFAULT_USER_EMAIL || 'admin';
+    const { error } = await supabase
+      .from('allegro_tokens')
+      .upsert({
+        user_email: defaultUserEmail,
+        access_token: data.access_token,
+        refresh_token: data.refresh_token
+      }, { onConflict: 'user_email' });
+
+    if (error) {
+      console.error('Błąd zapisu w bazie:', error);
+      return res.status(500).json({ error: 'Baza danych odrzuciła zapis', details: error });
+    }
+
+    // 3. Po udanym zapisie PRZEKIERUJ do aplikacji, zamiast pokazywać JSON
+    res.redirect('/?auth=success');
+    return;
+
+  } catch (err: any) {
+    res.status(500).json({ error: 'Błąd krytyczny', details: err });
   }
 }
