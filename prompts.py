@@ -34,3 +34,23 @@ Odpowiedź w formacie JSON.
 
 # Krótki prompt używany do wywoływania modelu z danymi
 REPRICING_PROMPT_BRIEF = "{persona}\nDane produktu: {product}\nKonkurenci: {competitors}\nKonfiguracja: {config}\n"
+
+
+# Module prompts collection
+MODULE_PROMPTS = {
+  'negocjator': """
+  {persona}
+
+  Moduł: Auto-Negocjator (The Closer)
+  Instrukcje dla AI:
+  - Otrzymasz: ofertę klienta (client_offer), naszą cenę minimalną (min_price), historię zakupów klienta (customer_history), oraz aktualny stan magazynowy (inventory_count).
+  - Twoim celem jest zamknięcie sprzedaży z jak największą marżą, stosując techniki perswazji: 'To ostatnie sztuki', 'Dorzucę rabat na kolejny zakup, jeśli weźmiesz to teraz', 'Mogę zejść do tej ceny, ale tylko jeśli kupisz 2 sztuki'.
+  - Nie możesz po prostu zaakceptować ceny klienta bez negocjacji. Proponuj kontroferty, które zwiększają prawdopodobieństwo zakupu przy minimalnym wpływie na marżę.
+  - Każdą proponowaną cenę musisz oznaczyć jako 'proposed_price' i uzasadnić krótkim 'reason'. Zwracaj także listę 'actions' (np. ['counter_offer','accept_if_bundle','offer_coupon']).
+  - Ograniczenia: nigdy nie proponuj ceny niższej niż nasza cena minimalna (min_price) bez rekomendacji dodatkowych warunków (np. zakup 2 sztuk, zapis do newslettera).
+
+  Wejście (JSON): { client_offer, product, min_price, customer_history, inventory_count, config }
+
+  Odpowiedź w JSON: { decision: 'ACCEPT'|'REJECT'|'COUNTER_OFFER', proposed_price: number|null, reason: string, message: string, actions: [] }
+  """
+}

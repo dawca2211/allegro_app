@@ -7,6 +7,7 @@ from prompts import AGENT_PERSONA, REPRICING_PROMPT_TEMPLATE, REPRICING_PROMPT_B
 from modules.repricing.repricer import compute_new_price, fetch_competitor_prices, enforce_margin_or_adjust
 from modules.ai.ai_handler import call_gemini
 from modules.finance.calculator import calculate_margin
+from modules.negotiator.negotiator import negotiate
 
 # try to import optional helpers
 try:
@@ -138,6 +139,22 @@ async def execute_repricing(req: RepriceRequest):
         final['final_reason'] += f"; fallback_to_deterministic={fallback_enf['safe_price']}"
 
     return final
+
+
+# Negotiation endpoint
+class NegotiateRequest(BaseModel):
+    offer_id: str
+    client_offer: float
+    product: ProductIn
+    customer_history: Optional[Dict[str, Any]] = None
+    inventory_count: Optional[int] = 0
+    config: Optional[Dict[str, Any]] = None
+
+
+@app.post('/api/negotiate')
+async def api_negotiate(req: NegotiateRequest):
+    result = negotiate(req.offer_id, req.client_offer, req.product.dict(), req.customer_history or {}, req.inventory_count or 0, config=req.config)
+    return result
 
 
 if __name__ == '__main__':
