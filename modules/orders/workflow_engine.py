@@ -99,6 +99,27 @@ def process_order_flow(order_data: Dict[str, Any]) -> Dict[str, Any]:
         logger.exception('Finance step failed')
         status['steps']['finance'] = {'ok': False, 'error': 'exception'}
 
+    # Ads integration: check margin and flag PAUSE_ADS if needed (best-effort)
+    try:
+        ads_eval = _safe_import('modules.ads.ads_integrator', 'evaluate_product_for_ads')
+        if ads_eval:
+            ads_actions = []
+            for it in order_data.get('items', []):
+                sku = it.get('sku') or it.get('id')
+                m = order_data.get('calculated_margin') or 0
+                try:
+                    res = ads_eval(it, m, config=None)
+                    if res.get('flag'):
+                        ads_actions.append(res)
+                except Exception:
+                    logger.exception('Ads evaluation failed for %s', sku)
+            status['steps']['ads'] = {'ok': True, 'actions': ads_actions}
+        else:
+            status['steps']['ads'] = {'ok': False, 'error': 'ads_integrator_unavailable'}
+    except Exception:
+        logger.exception('Ads step failed')
+        status['steps']['ads'] = {'ok': False, 'error': 'exception'}
+
     # Step 2: Inventory
     try:
         guard = _safe_import('modules.inventory.guard', None)

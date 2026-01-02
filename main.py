@@ -11,6 +11,9 @@ from modules.negotiator.negotiator import negotiate
 from modules.logistics.carrier_manager import select_optimal_carrier
 from modules.logistics.print_station import group_print_batch, generate_packing_slip
 from modules.orders.order_manager import process_new_order, get_dashboard_orders
+from modules.allegro.quality_monitor import analyze_discussion, prioritize_discussions
+from modules.ads.ads_integrator import check_and_flag_ads, evaluate_product_for_ads
+from modules.orders.review_manager import enqueue_review_on_delivery, run_due_reviews, get_pending_reviews
 
 # try to import optional helpers
 try:
@@ -214,5 +217,46 @@ async def api_orders_dashboard():
     try:
         data = get_dashboard_orders()
         return {'ok': True, 'orders': data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# Allegro quality endpoints
+class DiscussionIn(BaseModel):
+    discussion: Dict[str, Any]
+
+
+@app.post('/api/allegro/analyze_discussion')
+async def api_analyze_discussion(req: DiscussionIn):
+    try:
+        out = analyze_discussion(req.discussion)
+        return {'ok': True, 'result': out}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post('/api/orders/mark_delivered')
+async def api_orders_mark_delivered(req: OrderIn):
+    try:
+        summary = enqueue_review_on_delivery(req.order)
+        return {'ok': True, 'summary': summary}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get('/api/reviews/pending')
+async def api_reviews_pending():
+    try:
+        data = get_pending_reviews()
+        return {'ok': True, 'pending': data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post('/api/reviews/run_pending')
+async def api_reviews_run_pending():
+    try:
+        res = run_due_reviews()
+        return {'ok': True, 'result': res}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
