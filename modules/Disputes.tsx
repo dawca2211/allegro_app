@@ -76,6 +76,7 @@ export const Disputes = () => {
               {/* Right: Actions */}
               <div className="flex flex-col gap-2 justify-center min-w-[200px]">
                 <button 
+                  type="button"
                   onClick={() => handleAction(dispute.id, 'Paczka w drodze')}
                   className="flex items-center justify-center gap-2 w-full py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-700 transition-colors text-sm"
                 >
@@ -83,6 +84,7 @@ export const Disputes = () => {
                   Auto-Odp: W drodze
                 </button>
                 <button 
+                  type="button"
                   onClick={() => handleAction(dispute.id, 'Zwrot środków')}
                   className="flex items-center justify-center gap-2 w-full py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-lg border border-rose-500/20 transition-colors text-sm"
                 >

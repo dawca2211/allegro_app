@@ -26,6 +26,7 @@ export const Sidebar = ({ activeModule, setActiveModule }: { activeModule: strin
       <nav className="flex-1 p-4 space-y-2">
         {menuItems.map((item) => (
           <button
+            type="button"
             key={item.id}
             onClick={() => setActiveModule(item.id)}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
@@ -41,7 +42,7 @@ export const Sidebar = ({ activeModule, setActiveModule }: { activeModule: strin
       </nav>
 
       <div className="p-4 border-t border-slate-800">
-        <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-red-500/10 hover:text-red-400 text-slate-400 transition-colors">
+        <button type="button" className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-red-500/10 hover:text-red-400 text-slate-400 transition-colors">
           <LogOut size={20} />
           <span>Wyloguj</span>
         </button>

@@ -138,6 +138,7 @@ export const AgentChat = () => {
       {/* Floating Button */}
       {!isOpen && (
         <button
+          type="button"
           onClick={() => setIsOpen(true)}
           className="fixed bottom-6 right-6 w-16 h-16 bg-slate-900 border border-slate-700 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(14,165,233,0.3)] hover:scale-110 transition-transform z-[60] group overflow-hidden"
         >
@@ -165,7 +166,7 @@ export const AgentChat = () => {
                 </div>
               </div>
             </div>
-            <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white p-2 hover:bg-white/5 rounded-lg transition-colors">
+            <button type="button" onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white p-2 hover:bg-white/5 rounded-lg transition-colors">
                <Minimize2 size={18} />
             </button>
           </div>
@@ -205,13 +206,14 @@ export const AgentChat = () => {
           {/* Quick Actions */}
           <div className="px-4 py-2 flex gap-2 overflow-x-auto no-scrollbar border-t border-slate-800/50 bg-slate-900/50">
              {['Raport dobowy', 'Sprawdź stany', 'Wykryj błędy'].map(action => (
-                 <button 
-                    key={action}
-                    onClick={() => handleQuickAction(action)}
-                    className="whitespace-nowrap px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-purple-500/50 rounded-full text-[11px] font-medium text-slate-300 hover:text-white transition-all shadow-sm"
-                 >
-                    {action}
-                 </button>
+                <button 
+                  key={action}
+                  type="button"
+                  onClick={() => handleQuickAction(action)}
+                  className="whitespace-nowrap px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-purple-500/50 rounded-full text-[11px] font-medium text-slate-300 hover:text-white transition-all shadow-sm"
+                >
+                  {action}
+                </button>
              ))}
           </div>
 
@@ -227,6 +229,7 @@ export const AgentChat = () => {
                 className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 placeholder:text-slate-600 transition-all shadow-inner"
               />
               <button 
+                type="button"
                 onClick={handleSend}
                 disabled={!inputValue.trim()}
                 className="p-3.5 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl text-white shadow-lg shadow-purple-900/20 hover:shadow-purple-900/40 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all"

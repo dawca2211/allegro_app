@@ -115,6 +115,7 @@ export const SmartLister = () => {
           </div>
 
           <button 
+            type="button"
             onClick={handleScan}
             disabled={isProcessing}
             className="w-full bg-primary hover:bg-sky-400 text-white font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(14,165,233,0.3)] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg"
@@ -149,7 +150,7 @@ export const SmartLister = () => {
             Kolejka Wystawiania
             <span className="bg-primary/20 text-primary text-xs px-2 py-0.5 rounded-full">{drafts.filter(d => d.status === 'draft').length}</span>
           </h3>
-          <button className="text-xs text-slate-500 hover:text-white transition-colors">Wyczyść listę</button>
+          <button type="button" className="text-xs text-slate-500 hover:text-white transition-colors">Wyczyść listę</button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-slate-900/50">
@@ -192,11 +193,12 @@ export const SmartLister = () => {
 
                   {/* Actions */}
                   <div className="flex flex-col justify-between items-end gap-2">
-                     <button className="text-slate-500 hover:text-white transition-colors">
+                     <button type="button" className="text-slate-500 hover:text-white transition-colors">
                        <X size={20} />
                      </button>
                      {item.status === 'draft' && (
                        <button 
+                        type="button"
                         onClick={() => publishDraft(item.id)}
                         className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-lg shadow-emerald-900/20 flex items-center gap-2 whitespace-nowrap transition-colors"
                        >

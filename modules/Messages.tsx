@@ -49,7 +49,7 @@ const Messages: React.FC = () => {
               <MessageCircle size={20} className="text-emerald-500" />
               Skrzynka
             </h2>
-            <button className="text-slate-400 hover:text-white">
+            <button type="button" className="text-slate-400 hover:text-white">
               <MoreVertical size={18} />
             </button>
           </div>
@@ -94,7 +94,7 @@ const Messages: React.FC = () => {
               <p className="text-slate-400 mt-1">Konfiguracja automatycznych odpowiedzi poza godzinami pracy.</p>
             </div>
             <div className="flex flex-col items-end">
-               <button onClick={handleToggle} className="text-emerald-500 hover:text-emerald-400 transition-colors mb-2">
+               <button type="button" onClick={handleToggle} className="text-emerald-500 hover:text-emerald-400 transition-colors mb-2">
                 {settings.autoResponderEnabled ? (
                   <ToggleRight className="w-14 h-14" />
                 ) : (
@@ -177,7 +177,7 @@ const Messages: React.FC = () => {
               {settings.excludedKeywords.map(kw => (
                 <span key={kw} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20 group hover:border-rose-500/40 transition-colors">
                   {kw}
-                  <button onClick={() => removeKeyword(kw)} className="text-rose-400/50 hover:text-rose-400 transition-colors">
+                   <button type="button" onClick={() => removeKeyword(kw)} className="text-rose-400/50 hover:text-rose-400 transition-colors">
                     &times;
                   </button>
                 </span>
@@ -193,7 +193,7 @@ const Messages: React.FC = () => {
                <CheckCircle2 size={14} className="text-emerald-500" />
                Ostatnia synchronizacja: Teraz
              </div>
-             <button className="flex items-center gap-2 bg-emerald-600 text-white px-8 py-3 rounded-lg hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-900/20 font-medium group">
+             <button type="button" className="flex items-center gap-2 bg-emerald-600 text-white px-8 py-3 rounded-lg hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-900/20 font-medium group">
               <Save className="w-4 h-4 group-hover:scale-110 transition-transform" />
               Zapisz Ustawienia
             </button>

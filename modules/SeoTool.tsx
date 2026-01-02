@@ -39,6 +39,7 @@ export const SeoTool = () => {
           className="flex-1 bg-transparent border-none text-white px-4 py-3 focus:outline-none placeholder:text-slate-600"
         />
         <button 
+          type="button"
           onClick={handleAudit}
           disabled={analyzing || !url}
           className="bg-primary hover:bg-sky-400 text-white px-8 py-3 rounded-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
@@ -91,7 +92,7 @@ export const SeoTool = () => {
                   </div>
                   <div className="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-lg text-emerald-300 font-medium shadow-[0_0_15px_rgba(16,185,129,0.1)] flex justify-between items-center">
                     {result.newTitle}
-                    <button className="p-2 hover:bg-emerald-500/10 rounded-md transition-colors" title="Kopiuj">
+                    <button type="button" className="p-2 hover:bg-emerald-500/10 rounded-md transition-colors" title="Kopiuj">
                       <Copy size={16} />
                     </button>
                   </div>
@@ -108,7 +109,7 @@ export const SeoTool = () => {
                    {kw}
                  </span>
                ))}
-               <button className="px-3 py-1.5 rounded-full border border-dashed border-slate-600 text-slate-500 text-sm hover:text-white hover:border-slate-400 transition-colors">
+               <button type="button" className="px-3 py-1.5 rounded-full border border-dashed border-slate-600 text-slate-500 text-sm hover:text-white hover:border-slate-400 transition-colors">
                  + Dodaj własne
                </button>
              </div>

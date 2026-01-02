@@ -72,6 +72,7 @@ export const SeoOptimizer = () => {
              <div className="text-emerald-400 font-mono">Dzisiaj, 04:00</div>
            </div>
            <button 
+             type="button"
              onClick={handleBulkAccept}
              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg font-bold shadow-lg shadow-emerald-900/20 transition-all active:scale-95"
            >
@@ -169,12 +170,14 @@ export const SeoOptimizer = () => {
                   {/* Actions */}
                   <div className="flex xl:flex-col gap-2 w-full xl:w-auto mt-4 xl:mt-0">
                     <button 
+                      type="button"
                       onClick={() => handleAction(item.id, 'accepted')}
                       className="flex-1 xl:w-32 flex items-center justify-center gap-2 bg-slate-800 hover:bg-emerald-600 hover:text-white text-slate-300 px-4 py-2 rounded-lg border border-slate-700 transition-colors text-sm font-medium"
                     >
                       <Check size={16} /> Akceptuj
                     </button>
                     <button 
+                      type="button"
                       onClick={() => handleAction(item.id, 'rejected')}
                       className="flex-1 xl:w-32 flex items-center justify-center gap-2 bg-slate-800 hover:bg-rose-600 hover:text-white text-slate-300 px-4 py-2 rounded-lg border border-slate-700 transition-colors text-sm font-medium"
                     >

@@ -29,11 +29,11 @@ export const InventoryGuard = () => {
         <div className="flex items-center gap-3 bg-slate-900 border border-slate-700 p-3 rounded-xl">
            <span className="text-sm font-medium text-slate-300">Globalny Bufor Bezpieczeństwa:</span>
            <div className="flex items-center">
-             <button onClick={() => setGlobalBuffer(Math.max(0, globalBuffer - 1))} className="w-8 h-8 flex items-center justify-center bg-slate-800 rounded-l hover:bg-slate-700">-</button>
+             <button type="button" onClick={() => setGlobalBuffer(Math.max(0, globalBuffer - 1))} className="w-8 h-8 flex items-center justify-center bg-slate-800 rounded-l hover:bg-slate-700">-</button>
              <input type="text" readOnly value={globalBuffer} className="w-12 h-8 bg-slate-950 text-center border-y border-slate-800 text-white font-mono" />
-             <button onClick={() => setGlobalBuffer(globalBuffer + 1)} className="w-8 h-8 flex items-center justify-center bg-slate-800 rounded-r hover:bg-slate-700">+</button>
+             <button type="button" onClick={() => setGlobalBuffer(globalBuffer + 1)} className="w-8 h-8 flex items-center justify-center bg-slate-800 rounded-r hover:bg-slate-700">+</button>
            </div>
-           <button className="text-xs text-emerald-400 hover:text-emerald-300 underline ml-2">Zastosuj do wszystkich</button>
+           <button type="button" className="text-xs text-emerald-400 hover:text-emerald-300 underline ml-2">Zastosuj do wszystkich</button>
         </div>
       </div>
 
@@ -99,7 +99,7 @@ export const InventoryGuard = () => {
       </div>
       
       <div className="flex justify-end">
-        <button className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg font-medium shadow-lg shadow-emerald-900/20 transition-all">
+        <button type="button" className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg font-medium shadow-lg shadow-emerald-900/20 transition-all">
           <Save size={18} />
           Zapisz Konfigurację
         </button>

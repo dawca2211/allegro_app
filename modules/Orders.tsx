@@ -55,11 +55,11 @@ export const Orders = () => {
           <p className="text-slate-400">Zarządzaj wysyłkami i zwrotami</p>
         </div>
         <div className="flex space-x-3">
-          <button className="flex items-center px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-700 transition-colors">
+          <button type="button" className="flex items-center px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-700 transition-colors">
             <RefreshCw size={18} className="mr-2" />
             Synchronizuj
           </button>
-          <button className="flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-medium transition-colors shadow-lg shadow-emerald-900/20">
+          <button type="button" className="flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-medium transition-colors shadow-lg shadow-emerald-900/20">
             <Printer size={18} className="mr-2" />
             Generuj Etykiety
           </button>
@@ -76,7 +76,7 @@ export const Orders = () => {
             className="w-full pl-10 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
           />
         </div>
-        <button className="flex items-center px-4 py-2 bg-slate-800 text-slate-300 rounded-lg border border-slate-700 hover:text-white">
+        <button type="button" className="flex items-center px-4 py-2 bg-slate-800 text-slate-300 rounded-lg border border-slate-700 hover:text-white">
           <Filter size={18} className="mr-2" />
           Filtry
         </button>
@@ -132,6 +132,7 @@ export const Orders = () => {
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                        <button 
+                         type="button"
                          onClick={() => handlePrint('LABEL', order.id)}
                          className="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded transition-colors" 
                          title="Drukuj Etykietę"
@@ -139,6 +140,7 @@ export const Orders = () => {
                          <Printer size={18} />
                        </button>
                        <button 
+                         type="button"
                          onClick={() => handlePrint('INVOICE', order.id)}
                          className="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded transition-colors" 
                          title="Drukuj Fakturę"

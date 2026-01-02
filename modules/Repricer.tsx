@@ -65,7 +65,7 @@ export const Repricer = () => {
                    <div className="text-xs text-slate-500 flex items-center gap-1">
                      <AlertCircle size={12} /> Ostatnia zmiana: {item.lastUpdate}
                    </div>
-                   <button className="text-sm font-medium text-slate-300 hover:text-white underline">
+                   <button type="button" className="text-sm font-medium text-slate-300 hover:text-white underline">
                      Historia Cen
                    </button>
                 </div>

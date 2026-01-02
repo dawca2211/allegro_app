@@ -96,6 +96,7 @@ export const PrintStation = () => {
                <div className="flex justify-between items-center pt-2">
                   <div className="text-xs text-slate-400">Status: <span className="text-emerald-400 font-medium">Gotowa do pracy</span></div>
                   <button 
+                    type="button"
                     onClick={() => handleTestPrint('LABEL')}
                     className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-700 text-sm transition-colors"
                   >
@@ -133,8 +134,9 @@ export const PrintStation = () => {
                <div className="flex justify-between items-center pt-2">
                   <div className="text-xs text-slate-400">Status: <span className="text-emerald-400 font-medium">Uśpiona (Wake-on-LAN)</span></div>
                   <button 
-                     onClick={() => handleTestPrint('INVOICE')}
-                     className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-700 text-sm transition-colors"
+                    type="button"
+                    onClick={() => handleTestPrint('INVOICE')}
+                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-700 text-sm transition-colors"
                   >
                     Test A4
                   </button>
@@ -155,7 +157,7 @@ export const PrintStation = () => {
                   <div className="text-sm font-medium text-white">Auto-Druk Etykiet</div>
                   <div className="text-xs text-slate-500">Gdy status zmieni się na "W realizacji"</div>
                 </div>
-                <button onClick={() => setAutoLabel(!autoLabel)} className={`transition-colors ${autoLabel ? 'text-emerald-500' : 'text-slate-600'}`}>
+                <button type="button" onClick={() => setAutoLabel(!autoLabel)} className={`transition-colors ${autoLabel ? 'text-emerald-500' : 'text-slate-600'}`}>
                   {autoLabel ? <ToggleRight size={40} /> : <ToggleLeft size={40} />}
                 </button>
               </div>
@@ -165,7 +167,7 @@ export const PrintStation = () => {
                   <div className="text-sm font-medium text-white">Auto-Druk Faktur</div>
                   <div className="text-xs text-slate-500">Gdy zamówienie zostanie opłacone</div>
                 </div>
-                <button onClick={() => setAutoInvoice(!autoInvoice)} className={`transition-colors ${autoInvoice ? 'text-emerald-500' : 'text-slate-600'}`}>
+                <button type="button" onClick={() => setAutoInvoice(!autoInvoice)} className={`transition-colors ${autoInvoice ? 'text-emerald-500' : 'text-slate-600'}`}>
                   {autoInvoice ? <ToggleRight size={40} /> : <ToggleLeft size={40} />}
                 </button>
               </div>

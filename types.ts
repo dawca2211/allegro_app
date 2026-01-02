@@ -10,7 +10,7 @@ export interface AllegroAccount {
   id: string;
   login: string;
   status: 'connected' | 'disconnected' | 'error';
-  lastSync: Date;
+  lastSync: string;
 }
 
 export interface Product {

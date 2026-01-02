@@ -1,18 +1,36 @@
 import React from 'react';
 import { KPICard } from '../components/KPICard';
-import { DollarSign, Package, Clock, Trophy, TrendingUp, AlertTriangle } from 'lucide-react';
+import { DollarSign, Package, Clock, Trophy, TrendingUp, AlertTriangle, Key } from 'lucide-react';
 
 export const Dashboard = () => {
+  // Funkcja obsługująca przekierowanie do autoryzacji Allegro
+  const handleAllegroLogin = () => {
+    window.location.href = '/api/auth';
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-start md:items-center">
         <div>
           <h2 className="text-2xl font-bold text-white">Centrum Dowodzenia</h2>
           <p className="text-slate-400">Przegląd wyników na żywo</p>
         </div>
-        <div className="flex items-center space-x-2 text-sm text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-          <span>System działa: Online</span>
+        
+        <div className="flex flex-col md:flex-row items-end md:items-center space-y-2 md:space-y-0 md:space-x-4">
+          {/* PRZYCISK LOGOWANIA ALLEGRO */}
+          <button
+            type="button"
+            onClick={handleAllegroLogin}
+            className="flex items-center space-x-2 bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg font-bold transition-all shadow-lg active:scale-95 group"
+          >
+            <Key size={18} className="group-hover:rotate-12 transition-transform" />
+            <span>Połącz z Allegro</span>
+          </button>
+
+          <div className="flex items-center space-x-2 text-sm text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+            <span>System działa: Online</span>
+          </div>
         </div>
       </div>
 
@@ -56,7 +74,7 @@ export const Dashboard = () => {
           </h3>
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+              <div key={`order-${i}`} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
                 <div className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                   <div>
