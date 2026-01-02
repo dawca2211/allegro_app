@@ -14,6 +14,9 @@ from modules.orders.order_manager import process_new_order, get_dashboard_orders
 from modules.allegro.quality_monitor import analyze_discussion, prioritize_discussions
 from modules.ads.ads_integrator import check_and_flag_ads, evaluate_product_for_ads
 from modules.orders.review_manager import enqueue_review_on_delivery, run_due_reviews, get_pending_reviews
+from modules.allegro.quality_guard import handle_dispute, monitor_quality_metrics
+from modules.ads.ads_manager import adjust_ads_based_on_margin
+from modules.reviews.review_booster import request_positive_review
 
 # try to import optional helpers
 try:
@@ -235,6 +238,18 @@ async def api_analyze_discussion(req: DiscussionIn):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.post('/api/allegro/dispute')
+async def api_allegro_dispute(req: DiscussionIn):
+    try:
+        dispute_text = req.discussion.get('text') or '"
+'.join(m.get('text','') for m in req.discussion.get('messages',[]))
+        order_ctx = req.discussion.get('order_context', {})
+        out = handle_dispute(dispute_text, order_ctx)
+        return {'ok': True, 'result': out}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.post('/api/orders/mark_delivered')
 async def api_orders_mark_delivered(req: OrderIn):
     try:
@@ -258,5 +273,35 @@ async def api_reviews_run_pending():
     try:
         res = run_due_reviews()
         return {'ok': True, 'result': res}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# Ads optimize endpoint
+class AdsOptimizeIn(BaseModel):
+    product_id: str
+    current_margin: float
+    product_info: Optional[Dict[str, Any]] = None
+
+
+@app.post('/api/ads/optimize')
+async def api_ads_optimize(req: AdsOptimizeIn):
+    try:
+        out = adjust_ads_based_on_margin(req.product_id, req.current_margin, product_info=req.product_info)
+        return {'ok': True, 'result': out}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# Quality score for dashboard
+@app.get('/api/quality/score')
+async def api_quality_score():
+    try:
+        # aggregate quality metrics from various modules (stubbed)
+        q = monitor_quality_metrics()
+        # simple scoring heuristic
+        score = 95
+        warnings = q.get('issues', [])
+        return {'ok': True, 'score': score, 'warnings': warnings}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

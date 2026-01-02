@@ -24,6 +24,8 @@ async function renderDashboard(){
   const kpiRevenue = qs('#kpi-revenue');
   const kpiToShip = qs('#kpi-to-ship');
   const aiActions = qs('#ai-actions');
+  const qualityNode = qs('#quality-score');
+  const qualityWarnings = qs('#quality-warnings');
   root.innerHTML = 'Ładowanie...';
   const data = await fetchDashboard();
   if(!data || !data.ok){
@@ -66,6 +68,18 @@ async function renderDashboard(){
   });
 
   aiActions.textContent = 'Ostatnie akcje są monitorowane w Live Feed.';
+
+  // fetch quality score
+  try{
+    const r = await fetch('/api/quality/score');
+    if(r.ok){
+      const j = await r.json();
+      if(j && j.ok){
+        qualityNode.textContent = j.score + ' / 100';
+        qualityWarnings.textContent = (j.warnings && j.warnings.length) ? j.warnings.join('; ') : '';
+      }
+    }
+  }catch(e){ console.warn('quality fetch', e); }
 }
 
 function setupTabs(){
