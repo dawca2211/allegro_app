@@ -8,6 +8,8 @@ from modules.repricing.repricer import compute_new_price, fetch_competitor_price
 from modules.ai.ai_handler import call_gemini
 from modules.finance.calculator import calculate_margin
 from modules.negotiator.negotiator import negotiate
+from modules.logistics.carrier_manager import select_optimal_carrier
+from modules.logistics.print_station import group_print_batch, generate_packing_slip
 
 # try to import optional helpers
 try:
@@ -155,6 +157,36 @@ class NegotiateRequest(BaseModel):
 async def api_negotiate(req: NegotiateRequest):
     result = negotiate(req.offer_id, req.client_offer, req.product.dict(), req.customer_history or {}, req.inventory_count or 0, config=req.config)
     return result
+
+
+# Logistics endpoints
+class OptimizeRequest(BaseModel):
+    package_data: Dict[str, Any]
+    destination: Dict[str, Any]
+    carriers: Optional[List[Dict[str, Any]]] = None
+
+
+@app.post('/api/logistics/optimize')
+async def api_logistics_optimize(req: OptimizeRequest):
+    try:
+        out = select_optimal_carrier(req.package_data, req.destination, carriers=req.carriers)
+        return {'ok': True, 'result': out}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+class PrintBatchRequest(BaseModel):
+    orders: List[Dict[str, Any]]
+    group_by: Optional[str] = 'carrier'
+
+
+@app.post('/api/logistics/print_batch')
+async def api_logistics_print_batch(req: PrintBatchRequest):
+    try:
+        manifests = group_print_batch(req.orders, group_by=req.group_by or 'carrier')
+        return {'ok': True, 'manifests': manifests}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == '__main__':
